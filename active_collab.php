@@ -95,7 +95,8 @@ class ActiveCollab
 		$path = (string) $path;
 		$parameters = (array) $parameters;
 
-		$parameters['format'] = 'json';
+		// init var
+		$options = array();
 
 		// build the url
 		$url = $this->getUrl();
@@ -105,6 +106,7 @@ class ActiveCollab
 
 		// add token for authentication
 		$url .= '&token=' . $this->getApiKey();
+		$url .= '&format=json';
 
 		// HTTP method
 		if($method == 'POST')
@@ -113,7 +115,7 @@ class ActiveCollab
 			$parameters['submitted'] = 'submitted';
 
 			$options[CURLOPT_POST] = true;
-			$options[CURLOPT_POSTFIELDS] = $parameters;
+			$options[CURLOPT_POSTFIELDS] = http_build_query($parameters);
 		}
 
 		else
@@ -167,8 +169,21 @@ class ActiveCollab
 				exit;
 			}
 
+			// decode the JSON
+			$json = @json_decode($response, true);
+			$message = 'unknown';
+
+			if($json !== false && isset($json['message']))
+			{
+				// build messages
+				$message = $json['message'];
+
+				// append field errors
+				if(isset($json['field_errors'])) $message .= '(field errors: '. implode(', ', $json['field_errors']) .')';
+			}
+
 			// throw error
-			throw new ActiveCollabException(null, (int) $headers['http_code']);
+			throw new ActiveCollabException($message, (int) $headers['http_code']);
 		}
 
 		// error?
@@ -350,9 +365,20 @@ class ActiveCollab
 	}
 
 
-	public function peopleAddCompany()
+	/**
+	 * This command will create a new company
+	 *
+	 * @param string $name	Company name. Value of this field is required and needs to be unique in the entire system.
+	 * @return array
+	 */
+	public function peopleAddCompany($name)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		$parameters['company']['name'] = (string) $name;
+
+		// make the call
+		return $this->doCall('/people/add-company', $parameters, 'POST');
 	}
 
 
@@ -417,9 +443,34 @@ class ActiveCollab
 	}
 
 
-	public function projectsAdd()
+	/**
+	 * Creates a new project.
+	 *
+	 * @param string $name					Project name.
+	 * @param int $leaderId					ID of the user who is the Project Leader.
+	 * @param string[optional] $overview	Project overview.
+	 * @param bool $private					Default visibility for objects in this project
+	 * @param int[optional] $startsOn		Date when the project starts.
+	 * @param int[optional] $groupId		ID of the project group.
+	 * @param int[optional] $companyId		ID of the client company.
+	 * @param int[optional] $templateId		A valid project ID to use as a template.
+	 * @return array
+	 */
+	public function projectsAdd($name, $leaderId, $overview = null, $private = false, $startsOn = null, $groupId = null, $companyId = null, $templateId = null)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		$parameters['project']['name'] = (string) $name;
+		$parameters['project']['leader_id'] = (int) $leaderId;
+		if($overview != null) $parameters['project']['overview'] = (string) $overview;
+		if($private) $parameters['project']['private'] = 0;
+		if($startsOn != null) $parameters['project']['starts_on'] = date('Y-m-d H:i:s', (int) $startsOn);
+		if($groupId != null) $parameters['project']['group_id'] = (int) $groupId;
+		if($companyId != null) $parameters['project']['company_id'] = (int) $companyId;
+		if($templateId != null) $parameters['project']['template_id'] = (int) $templateId;
+
+		// make the call
+		return $this->doCall('/projects/add', $parameters, 'POST');
 	}
 
 
@@ -753,9 +804,32 @@ class ActiveCollab
 
 
 // Subtasks
-	public function projectsTasksAdd()
+	/**
+	 * This command will create a new subtask and attach it to the parent object.
+	 *
+	 * @param int $id						The id of the project.
+	 * @param int $parentId					The id of the parent (mostly ticket-id).
+	 * @param string $body					The task summary. A value for this field is required when a new task is added.
+	 * @param int[optional] $priority		Priority can have five integer values ranging from -2 (lowest) to 2 (highest). 0 is normal.
+	 * @param int[optional] $dueOn			When the task is due.
+	 * @param array[optional] $assignees	An array of people assigned to the object, first person will be responsible.
+	 * @return array
+	 */
+	public function projectsTasksAdd($id, $parentId, $body, $priority = null, $dueOn = null, array $assignees = null)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		$parameters['task']['body'] = (string) $body;
+
+		if($priority !== null) $parameters['task']['priority'] = (int) $priority;
+		if($dueOn !== null) $parameters['task']['due_on'] = date('Y-m-d H:i:s', $dueOn);
+		if($assignees !== null)
+		{
+			$parameters['task']['assignees'][0] = $assignees;
+			$parameters['task']['assignees'][1] = $assignees[0];
+		}
+
+		return $this->doCall('/projects/' . (string) $id . '/tasks/add&parent_id=' . (string) $parentId, $parameters, 'POST');
 	}
 
 
