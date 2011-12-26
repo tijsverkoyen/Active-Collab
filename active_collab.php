@@ -28,7 +28,7 @@
 class ActiveCollab
 {
 	// internal constant to enable/disable debugging
-	const DEBUG = false;
+	const DEBUG = true;
 
 	// current version
 	const VERSION = '1.0.1';
@@ -41,7 +41,6 @@ class ActiveCollab
 	 */
 	private $apiKey;
 
-
 	/**
 	 * The timeout
 	 *
@@ -49,14 +48,12 @@ class ActiveCollab
 	 */
 	private $timeOut = 60;
 
-
 	/**
 	 * The user agent
 	 *
 	 * @var	string
 	 */
 	private $userAgent;
-
 
 	/**
 	 * The url
@@ -80,7 +77,6 @@ class ActiveCollab
 		$this->setApiKey($apiKey);
 		$this->setUrl($url);
 	}
-
 
 	/**
 	 * Make the call
@@ -199,7 +195,6 @@ class ActiveCollab
 		return $response;
 	}
 
-
 	/**
 	 * Get the API-key that will be used
 	 *
@@ -209,7 +204,6 @@ class ActiveCollab
 	{
 		return (string) $this->apiKey;
 	}
-
 
 	/**
 	 * Get the timeout that will be used
@@ -221,7 +215,6 @@ class ActiveCollab
 		return (int) $this->timeOut;
 	}
 
-
 	/**
 	 * Get the url of the instance making the request
 	 *
@@ -231,7 +224,6 @@ class ActiveCollab
 	{
 		return (string) $this->url;
 	}
-
 
 	/**
 	 * Get the useragent that will be used. Our version will be prepended to yours.
@@ -244,7 +236,6 @@ class ActiveCollab
 		return (string) 'PHP ActiveCollab/' . self::VERSION . ' ' . $this->userAgent;
 	}
 
-
 	/**
 	 * Set API key that has to be used
 	 *
@@ -255,7 +246,6 @@ class ActiveCollab
 	{
 		$this->apiKey = (string) $apiKey;
 	}
-
 
 	/**
 	 * Set the timeout
@@ -269,7 +259,6 @@ class ActiveCollab
 		$this->timeOut = (int) $seconds;
 	}
 
-
 	/**
 	 * Set the url of the instance making the request
 	 *
@@ -280,7 +269,6 @@ class ActiveCollab
 	{
 		$this->url = (string) $url;
 	}
-
 
 	/**
 	 * Set the user-agent for you application
@@ -324,7 +312,6 @@ class ActiveCollab
 		return $this->doCall('/roles/system');
 	}
 
-
 	/**
 	 * Lists all project roles and displays their permissions.
 	 * Please note that the system returns all project roles without checking user permissions. Each user will be
@@ -337,21 +324,19 @@ class ActiveCollab
 		return $this->doCall('/roles/project');
 	}
 
-
 	/**
 	 * Displays the details from a specific role. This command can return both system and project roles and their
 	 * settings.
 	 * Please note that role details are listed without checking user permissions, so each user will be able to read
 	 * details of each role.
 	 *
-	 * @param int $id	The id of the role.
+	 * @param int $id	The ID of the role.
 	 * @return array
 	 */
 	public function rolesGet($id)
 	{
 		return $this->doCall('/roles/' . (string) $id);
 	}
-
 
 // Companies and users
 	/**
@@ -363,7 +348,6 @@ class ActiveCollab
 	{
 		return $this->doCall('/people');
 	}
-
 
 	/**
 	 * This command will create a new company
@@ -381,11 +365,10 @@ class ActiveCollab
 		return $this->doCall('/people/add-company', $parameters, 'POST');
 	}
 
-
 	/**
 	 * Displays the properties of a specific company.
 	 *
-	 * @param int $id	The id of the company
+	 * @param int $id	The ID of the company
 	 * @return array
 	 */
 	public function peopleCompanyGet($id)
@@ -393,36 +376,30 @@ class ActiveCollab
 		return $this->doCall('/people/' . (string) $id);
 	}
 
-
 	public function peopleCompanyEdit($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function peopleCompanyDelete($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function peopleCompanyAddUser($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function peopleCompanyUsers($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function peopleCompanyUsersEdit($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function peopleCompanyUsersDelete($id)
 	{
@@ -441,7 +418,6 @@ class ActiveCollab
 	{
 		return $this->doCall('/projects');
 	}
-
 
 	/**
 	 * Creates a new project.
@@ -463,7 +439,7 @@ class ActiveCollab
 		$parameters['project']['name'] = (string) $name;
 		$parameters['project']['leader_id'] = (int) $leaderId;
 		if($overview != null) $parameters['project']['overview'] = (string) $overview;
-		if($private) $parameters['project']['private'] = 0;
+		$parameters['project']['private'] = ($private) ? 1 : 0;
 		if($startsOn != null) $parameters['project']['starts_on'] = date('Y-m-d H:i:s', (int) $startsOn);
 		if($groupId != null) $parameters['project']['group_id'] = (int) $groupId;
 		if($companyId != null) $parameters['project']['company_id'] = (int) $companyId;
@@ -473,11 +449,10 @@ class ActiveCollab
 		return $this->doCall('/projects/add', $parameters, 'POST');
 	}
 
-
 	/**
 	 * Shows properties of the specific project.
 	 *
-	 * @param int $id	The id of the project
+	 * @param int $id	The ID of the project
 	 * @return array|null
 	 */
 	public function projectsGet($id)
@@ -485,29 +460,25 @@ class ActiveCollab
 		return $this->doCall('/projects/' . (string) $id);
 	}
 
-
 	public function projectsEdit($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsEditStatus($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsDelete($id)
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	/**
 	 * Returns all tasks assigned to a logged in user for that particular project.
 	 *
-	 * @param int $id	The id of the project
+	 * @param int $id	The ID of the project
 	 * @return	array|null
 	 */
 	public function projectsUserTasksGet($id)
@@ -522,24 +493,20 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsPeopleAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsPeopleUserChangePermissions()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsPeopleUserRemoveFromProject()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Project Groups
 	public function projectsGroups()
@@ -547,30 +514,25 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsGroupsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsGroupsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsGroupsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsGroupsDelete()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Discussions
 	public function projectsDiscussions()
@@ -578,24 +540,20 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsDiscussionsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsDiscussionsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsDiscussionsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Checklists
 	public function projectsChecklists()
@@ -603,30 +561,25 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsChecklistsArchive()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsChecklistsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsChecklistsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsChecklistsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Files
 	public function projectsFiles()
@@ -634,24 +587,20 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsFilesUploadSingle()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsFilesGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsFilesEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Milestones
 	public function projectsMilestones()
@@ -659,24 +608,20 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsMilestonesAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsMilestonesGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsMilestonesEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Tickets
 	public function projectsTickets($id)
@@ -684,30 +629,25 @@ class ActiveCollab
 		return $this->doCall('/projects/' . (string) $id . '/tickets');
 	}
 
-
 	public function projectsTicketsArchive()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsTicketsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsTicketsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsTicketsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Time
 	public function projectsTime()
@@ -715,61 +655,124 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsTimeAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsTimeGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsTimeEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 // Pages
-	public function projectsPages()
+	/**
+	 * Lists all page categories in a given project.
+	 *
+	 * @param string $id	The ID of the project.
+	 * @return	array
+	 */
+	public function projectsPages($id)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		return $this->doCall('/projects/' . (string) $id . '/pages');
 	}
 
-
-	public function projectsPagesAdd()
+	/**
+	 * Add a page
+	 *
+	 * @param string $id					The project ID.
+	 * @param string $name					Page title.
+	 * @param string $body					Page body.
+	 * @param array[optional] $tags			List of tags.
+	 * @param bool[optional] $private		Private object?
+	 * @param int[optional] $milestoneId	ID of the parent milestone.
+	 * @param int[optional] $parentId		ID of the parent object (category, ticket, ...)
+	 * @return array
+	 */
+	public function projectsPagesAdd($id, $name, $body, array $tags = null, $private = false, $milestoneId = null, $parentId = null)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		$parameters['page']['name'] = (string) $name;
+		$parameters['page']['body'] = (string) $body;
+
+		if($tags !== null) $parameters['page']['tags'] = implode(',', $tags);
+		$parameters['page']['private'] = ($private) ? 0 : 1;
+		if($milestoneId !== null) $parameters['page']['milestone_id'] = (int) $milestoneId;
+		if($parentId !== null) $parameters['page']['parent_id'] = (int) $parentId;
+
+		return $this->doCall('/projects/' . (string) $id . '/pages/add', $parameters, 'POST');
 	}
 
-
-	public function projectsPagesGet()
+	/**
+	 * Displays page details with a list of all subpages and revisions.
+	 *
+	 * @param string $id		The ID of the project.
+	 * @param string $pageId	The ID of the page.
+	 * @return	array
+	 */
+	public function projectsPagesGet($id, $pageId)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		return $this->doCall('/projects/' . (string) $id . '/pages/' . (string) $pageId);
 	}
 
-
-	public function projectsPagesEdit()
+	/**
+	 *
+	 * Enter description here ...
+	 * @param string $id					The project ID.
+	 * @param string $pageId				Page ID.
+	 * @param string $name					Page title.
+	 * @param string $body					Page body.
+	 * @param array[optional] $tags			List of tags.
+	 * @param bool[optional] $private		Private object?
+	 * @param int[optional] $milestoneId	ID of the parent milestone.
+	 * @param int[optional] $parentId		ID of the parent object (category, ticket, ...)
+	 * @return array
+	 */
+	public function projectsPagesEdit($id, $pageId, $isMinorRevision = false, $name = null, $body = null, array $tags = null, $private = false, $milestoneId = null, $parentId = null)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		if($isMinorRevision) $parameters['page']['is_minor_revision'] = 1;
+		if($name !== null) $parameters['page']['name'] = (string) $name;
+		if($body !== null) $parameters['page']['body'] = (string) $body;
+
+		if($tags !== null) $parameters['page']['tags'] = implode(',', $tags);
+		$parameters['page']['private'] = ($private) ? 0 : 1;
+		if($milestoneId !== null) $parameters['page']['milestone_id'] = (int) $milestoneId;
+		if($parentId !== null) $parameters['page']['parent_id'] = (int) $parentId;
+
+		return $this->doCall('/projects/' . (string) $id . '/pages/' . (string) $pageId . '/edit', $parameters, 'POST');
 	}
 
-
-	public function projectsPagesArchive()
+	/**
+	 * Mark the selected page as archived
+	 *
+	 * @param string $id		The ID of the project.
+	 * @param string $pageId	The ID of the page.
+	 * @return array
+	 */
+	public function projectsPagesArchive($id, $pageId)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		return $this->doCall('/projects/' . (string) $id . '/pages/' . (string) $pageId . '/archive', null, 'POST');
 	}
 
-
-	public function projectsPagesUnarchive()
+	/**
+	 * Marks a selected page as unarchived
+	 *
+	 * @param string $id		The ID of the project.
+	 * @param string $pageId	The ID of the page.
+	 * @return array
+	 */
+	public function projectsPagesUnarchive($id, $pageId)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		return $this->doCall('/projects/' . (string) $id . '/pages/' . (string) $pageId . '/unarchive', null, 'POST');
 	}
-
 
 // Status Messages
 	public function status()
@@ -777,12 +780,10 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function statusAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Comments
 	public function projectsCommentsAdd()
@@ -790,12 +791,10 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsCommentsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsCommentsEdit()
 	{
@@ -807,8 +806,8 @@ class ActiveCollab
 	/**
 	 * This command will create a new subtask and attach it to the parent object.
 	 *
-	 * @param int $id						The id of the project.
-	 * @param int $parentId					The id of the parent (mostly ticket-id).
+	 * @param int $id						The ID of the project.
+	 * @param int $parentId					The ID of the parent (mostly ticket-id).
 	 * @param string $body					The task summary. A value for this field is required when a new task is added.
 	 * @param int[optional] $priority		Priority can have five integer values ranging from -2 (lowest) to 2 (highest). 0 is normal.
 	 * @param int[optional] $dueOn			When the task is due.
@@ -832,18 +831,15 @@ class ActiveCollab
 		return $this->doCall('/projects/' . (string) $id . '/tasks/add&parent_id=' . (string) $parentId, $parameters, 'POST');
 	}
 
-
 	public function projectsTasksGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsTasksEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Attachments
 	public function projectsObjects()
@@ -851,49 +847,41 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 // Common Project Object Operations
 	public function projectsObjectsComplete()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsObjectsOpen()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsObjectsStar()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsObjectsUnstar()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsObjectsSubscribe()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsObjectsUnsubscribe()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 	public function projectsObjectsMoveToTrash()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 	public function projectsObjectsRestoreFromTrash()
 	{

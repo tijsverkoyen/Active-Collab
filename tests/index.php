@@ -17,6 +17,14 @@ $ac = new ActiveCollab(KEY, URL);
 // $response = $ac->projects();
 // $response = $ac->projectsAdd('name', 15);
 // $response = $ac->projectsGet(45);
+//$response = $ac->projectsPages(45);
+//$response = $ac->projectsPagesAdd(45, time(), 'page created on ' . date('Y-m-d H:i:s'));
+//$response = $ac->projectsPagesArchive(45, 5155);
+//$response = $ac->projectsPagesEdit(45, 5155, '[edited]');
+//$response = $ac->projectsPagesGet(45, 5155);
+//$response = $ac->projectsPagesUnarchive(45, 5155);
+
+
 // $response = $ac->projectsUserTasksGet(45);
 // $response = $ac->projectsTickets(45);
 // $response = $ac->projectsTasksAdd(45, 4786, 'just a body ' . time());
