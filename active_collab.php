@@ -83,7 +83,9 @@ class ActiveCollab
 	 *
 	 * @return	string
 	 * @param	string $url						The URL to call.
-	 * @param	array[optional] $parameters	The parameters to pass.
+	 * @param	array[optional] $parameters		The parameters to pass.
+	 * @param	string[optional] $method		The method to use.
+	 * @param	bool[optional] $expectJSON		Do we expect JSON in return?
 	 */
 	private function doCall($path, $parameters = array(), $method = 'GET', $expectJSON = true)
 	{
@@ -439,7 +441,7 @@ class ActiveCollab
 		$parameters['project']['name'] = (string) $name;
 		$parameters['project']['leader_id'] = (int) $leaderId;
 		if($overview != null) $parameters['project']['overview'] = (string) $overview;
-		$parameters['project']['private'] = ($private) ? 1 : 0;
+		$parameters['project']['private'] = ($private) ? 0 : 1;
 		if($startsOn != null) $parameters['project']['starts_on'] = date('Y-m-d H:i:s', (int) $startsOn);
 		if($groupId != null) $parameters['project']['group_id'] = (int) $groupId;
 		if($companyId != null) $parameters['project']['company_id'] = (int) $companyId;
@@ -488,24 +490,72 @@ class ActiveCollab
 
 
 // Project People
-	public function projectsPeople()
+	/**
+	 * Displays the list of people involved with the project and the permissions included in their Project Role.
+	 * Project Permissions are organized per module and have four possible values:
+	 * 	- 0: no access;
+	 * 	- 1: has access, but can't create or manage objects;
+	 * 	- 2: has access and permission to create objects in a given module;
+	 * 	- 3: has access, creation and management permissions in a given module.
+	 *
+	 * @param int $id		The ID of the project
+	 * @return array|null
+	 */
+	public function projectsPeople($id)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		return $this->doCall('/projects/' . (string) $id . '/people');
 	}
 
-	public function projectsPeopleAdd()
+	/**
+	 *
+	 * @param int $id				The ID of the project
+	 * @param array $users			The IDs of the users that should be added.
+	 * @param array $roleId			The ID of the role.
+	 * @param array $permissions	The permissions of those users, use the role_id-key if you predefined roles, or use the permissions-key if you want to specifiy the rights for eacht item seperatly
+	 * return bool
+	 */
+	public function projectsPeopleAdd($id, array $users, $roleId = null, array $permissions = null)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		$parameters['users'] = (array) $users;
+		if($roleId !== null) $parameters['project_permissions']['role_id'] = (int) $roleId;
+		if($permissions !== null) $parameters['project_permissions']['permissions'] = (array) $permissions;
+
+		// make the call
+		return ($this->doCall('/projects/' . (string) $id . '/people/add', $parameters, 'POST') === null);
 	}
 
-	public function projectsPeopleUserChangePermissions()
+	/**
+	 * Change the set of Project Permissions for the selected user in a given project.
+	 *
+	 * @param int $id				The ID of the project.
+	 * @param int $userId			The ID of the user.
+	 * @param array $roleId			The ID of the role.
+	 * @param array $permissions	The permissions of those users, use the role_id-key if you predefined roles, or use the permissions-key if you want to specifiy the rights for eacht item seperatly
+	 * @return bool
+	 */
+	public function projectsPeopleUserChangePermissions($id, $userId, $roleId = null, array $permissions = null)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		// redefine
+		$parameters = array();
+		if($roleId !== null) $parameters['project_permissions']['role_id'] = (int) $roleId;
+		if($permissions !== null) $parameters['project_permissions']['permissions'] = (array) $permissions;
+
+		// make the call
+		return ($this->doCall('/projects/' . (string) $id . '/people/' . (string) $userId . '/change-permissions', $parameters, 'POST') === null);
 	}
 
-	public function projectsPeopleUserRemoveFromProject()
+	/**
+	 * Remove a specific user from the project.
+	 *
+	 * @param int $id		The ID of the project.
+	 * @param int $userId	The ID of the user.
+	 * @return bool
+	 */
+	public function projectsPeopleUserRemoveFromProject($id, $userId)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		return ($this->doCall('/projects/' . (string) $id . '/people/' . (string) $userId . '/remove-from-project', null, 'POST') === null);
 	}
 
 // Project Groups
