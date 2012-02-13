@@ -918,9 +918,11 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-	public function projectsObjectsSubscribe()
+	public function projectsObjectsSubscribe($id, array $users, $objectId)
 	{
-		throw new ActiveCollabException('Not implemented', 501);
+		$parameters['users'] = (array) $users;
+
+		return $this->doCall('/projects/' . (string) $id . '/objects/' . (string) $objectId . '/subscribe', $parameters, 'POST');
 	}
 
 	public function projectsObjectsUnsubscribe()
