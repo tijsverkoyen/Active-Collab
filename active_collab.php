@@ -892,7 +892,7 @@ class ActiveCollab
 	}
 
 // Attachments
-	public function projectsObjects()
+	public function projectsObjectsAttachments()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
