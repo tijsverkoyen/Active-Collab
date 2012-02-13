@@ -752,7 +752,7 @@ class ActiveCollab
 		$parameters['page']['body'] = (string) $body;
 
 		if($tags !== null) $parameters['page']['tags'] = implode(',', $tags);
-		$parameters['page']['private'] = ($private) ? 0 : 1;
+		$parameters['page']['private'] = ($private) ? 1 : 0;	// @todo	fix me
 		if($milestoneId !== null) $parameters['page']['milestone_id'] = (int) $milestoneId;
 		if($parentId !== null) $parameters['page']['parent_id'] = (int) $parentId;
 
