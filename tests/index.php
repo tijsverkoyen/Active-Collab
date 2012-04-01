@@ -37,7 +37,5 @@ $ac = new ActiveCollab(KEY, URL);
 // $response = $ac->projectsTasksAdd(45, 4786, 'with due date' . time(), null, mktime(00, 00, 00, 12, 20, 2011));
 // $response = $ac->projectsTasksAdd(45, 4786, 'with assignees' . time(), null, null, array(15), 15);
 
-$response = $ac->projectsObjectsSubscribe(102, array(26), 5553);
-
-Spoon::dump($response);
-?>
+// $response = $ac->projectsObjectsSubscribe(102, array(26), 5553);
+// Spoon::dump($response);

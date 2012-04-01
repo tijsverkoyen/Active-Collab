@@ -68,9 +68,8 @@ class ActiveCollab
 	 * Default constructor
 	 * Creates an instance of the ActiveCollab Class.
 	 *
-	 * @return	void
-	 * @param	string $apiKey	The API key being verified for use with the API.
-	 * @param	string $url		The endpoint of the api.
+	 * @param string $apiKey	The API key being verified for use with the API.
+	 * @param string $url		The endpoint of the api.
 	 */
 	public function __construct($apiKey, $url)
 	{
@@ -81,11 +80,11 @@ class ActiveCollab
 	/**
 	 * Make the call
 	 *
-	 * @return	string
-	 * @param	string $url						The URL to call.
-	 * @param	array[optional] $parameters		The parameters to pass.
-	 * @param	string[optional] $method		The method to use.
-	 * @param	bool[optional] $expectJSON		Do we expect JSON in return?
+	 * @param string $url						The URL to call.
+	 * @param array[optional] $parameters		The parameters to pass.
+	 * @param string[optional] $method		The method to use.
+	 * @param bool[optional] $expectJSON		Do we expect JSON in return?
+	 * @return string
 	 */
 	private function doCall($path, $parameters = array(), $method = 'GET', $expectJSON = true)
 	{
@@ -177,7 +176,7 @@ class ActiveCollab
 				$message = $json['message'];
 
 				// append field errors
-				if(isset($json['field_errors'])) $message .= '(field errors: '. implode(', ', $json['field_errors']) .')';
+				if(isset($json['field_errors'])) $message .= '(field errors: ' . implode(', ', $json['field_errors']) . ')';
 			}
 
 			// throw error
@@ -200,7 +199,7 @@ class ActiveCollab
 	/**
 	 * Get the API-key that will be used
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getApiKey()
 	{
@@ -210,7 +209,7 @@ class ActiveCollab
 	/**
 	 * Get the timeout that will be used
 	 *
-	 * @return	int
+	 * @return int
 	 */
 	public function getTimeOut()
 	{
@@ -220,7 +219,7 @@ class ActiveCollab
 	/**
 	 * Get the url of the instance making the request
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getUrl()
 	{
@@ -231,7 +230,7 @@ class ActiveCollab
 	 * Get the useragent that will be used. Our version will be prepended to yours.
 	 * It will look like: "PHP ActiveCollab/<version> <your-user-agent>"
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getUserAgent()
 	{
@@ -241,8 +240,7 @@ class ActiveCollab
 	/**
 	 * Set API key that has to be used
 	 *
-	 * @return	void
-	 * @param	string $apiKey		The API key to use.
+	 * @param string $apiKey		The API key to use.
 	 */
 	public function setApiKey($apiKey)
 	{
@@ -253,8 +251,7 @@ class ActiveCollab
 	 * Set the timeout
 	 * After this time the request will stop. You should handle any errors triggered by this.
 	 *
-	 * @return	void
-	 * @param	int $seconds	The timeout in seconds.
+	 * @param int $seconds	The timeout in seconds.
 	 */
 	public function setTimeOut($seconds)
 	{
@@ -264,8 +261,7 @@ class ActiveCollab
 	/**
 	 * Set the url of the instance making the request
 	 *
-	 * @return	void
-	 * @param	string $url		The URL making the request.
+	 * @param string $url		The URL making the request.
 	 */
 	public function setUrl($url)
 	{
@@ -276,14 +272,12 @@ class ActiveCollab
 	 * Set the user-agent for you application
 	 * It will be appended to ours, the result will look like: "PHP ActiveCollab/<version> <your-user-agent>"
 	 *
-	 * @return	void
-	 * @param	string $userAgent	Your user-agent, it should look like <app-name>/<app-version>.
+	 * @param string $userAgent	Your user-agent, it should look like <app-name>/<app-version>.
 	 */
 	public function setUserAgent($userAgent)
 	{
 		$this->userAgent = (string) $userAgent;
 	}
-
 
 // System information
 	/**
@@ -408,7 +402,6 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-
 // Projects
 	/**
 	 * Displays all projects that the authenticated user has access to.
@@ -481,13 +474,12 @@ class ActiveCollab
 	 * Returns all tasks assigned to a logged in user for that particular project.
 	 *
 	 * @param int $id	The ID of the project
-	 * @return	array|null
+	 * @return array|null
 	 */
 	public function projectsUserTasksGet($id)
 	{
 		return $this->doCall('/projects/' . (string) $id . '/user-tasks');
 	}
-
 
 // Project People
 	/**
@@ -512,7 +504,7 @@ class ActiveCollab
 	 * @param array $users			The IDs of the users that should be added.
 	 * @param array $roleId			The ID of the role.
 	 * @param array $permissions	The permissions of those users, use the role_id-key if you predefined roles, or use the permissions-key if you want to specifiy the rights for eacht item seperatly
-	 * return bool
+	 * @return bool
 	 */
 	public function projectsPeopleAdd($id, array $users, $roleId = null, array $permissions = null)
 	{
@@ -725,7 +717,7 @@ class ActiveCollab
 	 * Lists all page categories in a given project.
 	 *
 	 * @param string $id	The ID of the project.
-	 * @return	array
+	 * @return array
 	 */
 	public function projectsPages($id)
 	{
@@ -764,7 +756,7 @@ class ActiveCollab
 	 *
 	 * @param string $id		The ID of the project.
 	 * @param string $pageId	The ID of the page.
-	 * @return	array
+	 * @return array
 	 */
 	public function projectsPagesGet($id, $pageId)
 	{
@@ -850,7 +842,6 @@ class ActiveCollab
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
-
 
 // Subtasks
 	/**
@@ -941,7 +932,6 @@ class ActiveCollab
 	}
 }
 
-
 /**
  * ActiveCollab Exception class
  *
@@ -950,5 +940,3 @@ class ActiveCollab
 class ActiveCollabException extends Exception
 {
 }
-
-?>
