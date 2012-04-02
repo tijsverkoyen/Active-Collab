@@ -8,6 +8,9 @@
  * The class is documented in the file itself. If you find any bugs help me out and report them. Reporting can be done by sending an email to php-activecollab-bugs[at]verkoyen[dot]eu.
  * If you report a bug, make sure you give me enough information (include your code).
  *
+ * Changelog since 1.0.1
+ * - Implemented new code-styling
+ *
  * License
  * Copyright (c) Tijs Verkoyen. All rights reserved.
  *
@@ -19,11 +22,10 @@
  *
  * This software is provided by the author "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the author be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
  *
- * @author			Tijs Verkoyen <php-activecollab@verkoyen.eu>
- * @version			1.0.0
- *
- * @copyright		Copyright (c) Tijs Verkoyen. All rights reserved.
- * @license			BSD License
+ * @author Tijs Verkoyen <php-activecollab@verkoyen.eu>
+ * @version 1.0.0
+ * @copyright Copyright (c) Tijs Verkoyen. All rights reserved.
+ * @license BSD License
  */
 class ActiveCollab
 {
@@ -33,43 +35,41 @@ class ActiveCollab
 	// current version
 	const VERSION = '1.0.1';
 
-
 	/**
 	 * The key for the API
 	 *
-	 * @var	string
+	 * @var string
 	 */
 	private $apiKey;
 
 	/**
 	 * The timeout
 	 *
-	 * @var	int
+	 * @var int
 	 */
 	private $timeOut = 60;
 
 	/**
 	 * The user agent
 	 *
-	 * @var	string
+	 * @var string
 	 */
 	private $userAgent;
 
 	/**
 	 * The url
 	 *
-	 * @var	string
+	 * @var string
 	 */
 	private $url;
 
-
-// class methods
+	// class methods
 	/**
 	 * Default constructor
 	 * Creates an instance of the ActiveCollab Class.
 	 *
-	 * @param string $apiKey	The API key being verified for use with the API.
-	 * @param string $url		The endpoint of the api.
+	 * @param $apiKey string API key being verified for use with the API.
+	 * @param $url string endpoint of the api.
 	 */
 	public function __construct($apiKey, $url)
 	{
@@ -80,10 +80,10 @@ class ActiveCollab
 	/**
 	 * Make the call
 	 *
-	 * @param string $url						The URL to call.
-	 * @param array[optional] $parameters		The parameters to pass.
-	 * @param string[optional] $method		The method to use.
-	 * @param bool[optional] $expectJSON		Do we expect JSON in return?
+	 * @param $url string URL to call.
+	 * @param $parameters array[optional] parameters to pass.
+	 * @param $method string[optional] method to use.
+	 * @param $expectJSON bool[optional] we expect JSON in return?
 	 * @return string
 	 */
 	private function doCall($path, $parameters = array(), $method = 'GET', $expectJSON = true)
@@ -108,7 +108,8 @@ class ActiveCollab
 		// HTTP method
 		if($method == 'POST')
 		{
-			// according the documentation we should make sure that there is a key submitted when using POST.
+			// according the documentation we should make sure that there is a
+			// key submitted when using POST.
 			$parameters['submitted'] = 'submitted';
 
 			$options[CURLOPT_POST] = true;
@@ -163,7 +164,7 @@ class ActiveCollab
 				echo '</pre>';
 
 				// stop the script
-				exit;
+				exit();
 			}
 
 			// decode the JSON
@@ -227,7 +228,8 @@ class ActiveCollab
 	}
 
 	/**
-	 * Get the useragent that will be used. Our version will be prepended to yours.
+	 * Get the useragent that will be used.
+	 * Our version will be prepended to yours.
 	 * It will look like: "PHP ActiveCollab/<version> <your-user-agent>"
 	 *
 	 * @return string
@@ -240,7 +242,7 @@ class ActiveCollab
 	/**
 	 * Set API key that has to be used
 	 *
-	 * @param string $apiKey		The API key to use.
+	 * @param $apiKey string API key to use.
 	 */
 	public function setApiKey($apiKey)
 	{
@@ -249,9 +251,10 @@ class ActiveCollab
 
 	/**
 	 * Set the timeout
-	 * After this time the request will stop. You should handle any errors triggered by this.
+	 * After this time the request will stop.
+	 * You should handle any errors triggered by this.
 	 *
-	 * @param int $seconds	The timeout in seconds.
+	 * @param $seconds int timeout in seconds.
 	 */
 	public function setTimeOut($seconds)
 	{
@@ -261,7 +264,7 @@ class ActiveCollab
 	/**
 	 * Set the url of the instance making the request
 	 *
-	 * @param string $url		The URL making the request.
+	 * @param $url string URL making the request.
 	 */
 	public function setUrl($url)
 	{
@@ -270,16 +273,18 @@ class ActiveCollab
 
 	/**
 	 * Set the user-agent for you application
-	 * It will be appended to ours, the result will look like: "PHP ActiveCollab/<version> <your-user-agent>"
+	 * It will be appended to ours, the result will look like: "PHP
+	 * ActiveCollab/<version> <your-user-agent>"
 	 *
-	 * @param string $userAgent	Your user-agent, it should look like <app-name>/<app-version>.
+	 * @param $userAgent string user-agent, it should look like
+	 *        <app-name>/<app-version>.
 	 */
 	public function setUserAgent($userAgent)
 	{
 		$this->userAgent = (string) $userAgent;
 	}
 
-// System information
+	// System information
 	/**
 	 * Returns system information about the installation you are working with.
 	 *
@@ -296,10 +301,11 @@ class ActiveCollab
 		return $response;
 	}
 
-// Roles
+	// Roles
 	/**
 	 * Lists all system roles and role details (permissions included).
-	 * For security reasons, if user is not system administrator or people manager only default role ID is returned!
+	 * For security reasons, if user is not system administrator or people
+	 * manager only default role ID is returned!
 	 *
 	 * @return array
 	 */
@@ -310,7 +316,8 @@ class ActiveCollab
 
 	/**
 	 * Lists all project roles and displays their permissions.
-	 * Please note that the system returns all project roles without checking user permissions. Each user will be
+	 * Please note that the system returns all project roles without checking
+	 * user permissions. Each user will be
 	 * able to execute this operation and see all available project roles.
 	 *
 	 * @return array
@@ -321,12 +328,14 @@ class ActiveCollab
 	}
 
 	/**
-	 * Displays the details from a specific role. This command can return both system and project roles and their
+	 * Displays the details from a specific role.
+	 * This command can return both system and project roles and their
 	 * settings.
-	 * Please note that role details are listed without checking user permissions, so each user will be able to read
+	 * Please note that role details are listed without checking user
+	 * permissions, so each user will be able to read
 	 * details of each role.
 	 *
-	 * @param int $id	The ID of the role.
+	 * @param $id int ID of the role.
 	 * @return array
 	 */
 	public function rolesGet($id)
@@ -334,11 +343,12 @@ class ActiveCollab
 		return $this->doCall('/roles/' . (string) $id);
 	}
 
-// Companies and users
+	// Companies and users
 	/**
-	 * Lists all the companies defined in the System, no matter if they are Active or Archived.
+	 * Lists all the companies defined in the System, no matter if they are
+	 * Active or Archived.
 	 *
-	 * @return array|null
+	 * @return array null
 	 */
 	public function people()
 	{
@@ -348,7 +358,8 @@ class ActiveCollab
 	/**
 	 * This command will create a new company
 	 *
-	 * @param string $name	Company name. Value of this field is required and needs to be unique in the entire system.
+	 * @param $name string name. Value of this field is required and needs to be
+	 *        unique in the entire system.
 	 * @return array
 	 */
 	public function peopleAddCompany($name)
@@ -364,7 +375,7 @@ class ActiveCollab
 	/**
 	 * Displays the properties of a specific company.
 	 *
-	 * @param int $id	The ID of the company
+	 * @param $id int ID of the company
 	 * @return array
 	 */
 	public function peopleCompanyGet($id)
@@ -402,12 +413,13 @@ class ActiveCollab
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Projects
+	// Projects
 	/**
 	 * Displays all projects that the authenticated user has access to.
-	 * This function will show all - active, paused, completed and canceled projects.
+	 * This function will show all - active, paused, completed and canceled
+	 * projects.
 	 *
-	 * @return array|null
+	 * @return array null
 	 */
 	public function projects()
 	{
@@ -417,14 +429,14 @@ class ActiveCollab
 	/**
 	 * Creates a new project.
 	 *
-	 * @param string $name					Project name.
-	 * @param int $leaderId					ID of the user who is the Project Leader.
-	 * @param string[optional] $overview	Project overview.
-	 * @param bool $private					Default visibility for objects in this project
-	 * @param int[optional] $startsOn		Date when the project starts.
-	 * @param int[optional] $groupId		ID of the project group.
-	 * @param int[optional] $companyId		ID of the client company.
-	 * @param int[optional] $templateId		A valid project ID to use as a template.
+	 * @param $name string name.
+	 * @param $leaderId int of the user who is the Project Leader.
+	 * @param $overview string[optional] overview.
+	 * @param $private bool visibility for objects in this project
+	 * @param $startsOn int[optional] when the project starts.
+	 * @param $groupId int[optional] of the project group.
+	 * @param $companyId int[optional] of the client company.
+	 * @param $templateId int[optional] valid project ID to use as a template.
 	 * @return array
 	 */
 	public function projectsAdd($name, $leaderId, $overview = null, $private = false, $startsOn = null, $groupId = null, $companyId = null, $templateId = null)
@@ -447,8 +459,8 @@ class ActiveCollab
 	/**
 	 * Shows properties of the specific project.
 	 *
-	 * @param int $id	The ID of the project
-	 * @return array|null
+	 * @param $id int ID of the project
+	 * @return array null
 	 */
 	public function projectsGet($id)
 	{
@@ -471,27 +483,30 @@ class ActiveCollab
 	}
 
 	/**
-	 * Returns all tasks assigned to a logged in user for that particular project.
+	 * Returns all tasks assigned to a logged in user for that particular
+	 * project.
 	 *
-	 * @param int $id	The ID of the project
-	 * @return array|null
+	 * @param $id int ID of the project
+	 * @return array null
 	 */
 	public function projectsUserTasksGet($id)
 	{
 		return $this->doCall('/projects/' . (string) $id . '/user-tasks');
 	}
 
-// Project People
+	// Project People
 	/**
-	 * Displays the list of people involved with the project and the permissions included in their Project Role.
-	 * Project Permissions are organized per module and have four possible values:
-	 * 	- 0: no access;
-	 * 	- 1: has access, but can't create or manage objects;
-	 * 	- 2: has access and permission to create objects in a given module;
-	 * 	- 3: has access, creation and management permissions in a given module.
+	 * Displays the list of people involved with the project and the permissions
+	 * included in their Project Role.
+	 * Project Permissions are organized per module and have four possible
+	 * values:
+	 * - 0: no access;
+	 * - 1: has access, but can't create or manage objects;
+	 * - 2: has access and permission to create objects in a given module;
+	 * - 3: has access, creation and management permissions in a given module.
 	 *
-	 * @param int $id		The ID of the project
-	 * @return array|null
+	 * @param $id int ID of the project
+	 * @return array null
 	 */
 	public function projectsPeople($id)
 	{
@@ -500,10 +515,12 @@ class ActiveCollab
 
 	/**
 	 *
-	 * @param int $id				The ID of the project
-	 * @param array $users			The IDs of the users that should be added.
-	 * @param array $roleId			The ID of the role.
-	 * @param array $permissions	The permissions of those users, use the role_id-key if you predefined roles, or use the permissions-key if you want to specifiy the rights for eacht item seperatly
+	 * @param $id int ID of the project
+	 * @param $users array IDs of the users that should be added.
+	 * @param $roleId array ID of the role.
+	 * @param $permissions array permissions of those users, use the role_id-key
+	 *        if you predefined roles, or use the permissions-key if you
+	 *        want to specifiy the rights for eacht item seperatly
 	 * @return bool
 	 */
 	public function projectsPeopleAdd($id, array $users, $roleId = null, array $permissions = null)
@@ -519,12 +536,15 @@ class ActiveCollab
 	}
 
 	/**
-	 * Change the set of Project Permissions for the selected user in a given project.
+	 * Change the set of Project Permissions for the selected user in a given
+	 * project.
 	 *
-	 * @param int $id				The ID of the project.
-	 * @param int $userId			The ID of the user.
-	 * @param array $roleId			The ID of the role.
-	 * @param array $permissions	The permissions of those users, use the role_id-key if you predefined roles, or use the permissions-key if you want to specifiy the rights for eacht item seperatly
+	 * @param $id int ID of the project.
+	 * @param $userId int ID of the user.
+	 * @param $roleId array ID of the role.
+	 * @param $permissions array permissions of those users, use the role_id-key
+	 *        if you predefined roles, or use the permissions-key if you
+	 *        want to specifiy the rights for eacht item seperatly
 	 * @return bool
 	 */
 	public function projectsPeopleUserChangePermissions($id, $userId, $roleId = null, array $permissions = null)
@@ -541,8 +561,8 @@ class ActiveCollab
 	/**
 	 * Remove a specific user from the project.
 	 *
-	 * @param int $id		The ID of the project.
-	 * @param int $userId	The ID of the user.
+	 * @param $id int ID of the project.
+	 * @param $userId int ID of the user.
 	 * @return bool
 	 */
 	public function projectsPeopleUserRemoveFromProject($id, $userId)
@@ -550,173 +570,329 @@ class ActiveCollab
 		return ($this->doCall('/projects/' . (string) $id . '/people/' . (string) $userId . '/remove-from-project', null, 'POST') === null);
 	}
 
-// Project Groups
+	// Project Groups
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsGroups()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsGroupsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsGroupsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsGroupsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsGroupsDelete()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Discussions
+	// Discussions
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsDiscussions()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsDiscussionsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsDiscussionsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsDiscussionsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Checklists
+	// Checklists
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsChecklists()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsChecklistsArchive()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsChecklistsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsChecklistsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsChecklistsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Files
+	// Files
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsFiles()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsFilesUploadSingle()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsFilesGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsFilesEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Milestones
+	// Milestones
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsMilestones()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsMilestonesAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsMilestonesGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsMilestonesEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Tickets
+	// Tickets
+	/**
+	 * Lists all active tickets in a project.
+	 *
+	 * @param string $id	The project ID.
+	 * @return array
+	 */
 	public function projectsTickets($id)
 	{
 		return $this->doCall('/projects/' . (string) $id . '/tickets');
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTicketsArchive()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTicketsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTicketsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTicketsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Time
+	// Time
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTime()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTimeAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTimeGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTimeEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Pages
+	// Pages
 	/**
 	 * Lists all page categories in a given project.
 	 *
-	 * @param string $id	The ID of the project.
+	 * @param $id string ID of the project.
 	 * @return array
 	 */
 	public function projectsPages($id)
@@ -727,13 +903,14 @@ class ActiveCollab
 	/**
 	 * Add a page
 	 *
-	 * @param string $id					The project ID.
-	 * @param string $name					Page title.
-	 * @param string $body					Page body.
-	 * @param array[optional] $tags			List of tags.
-	 * @param bool[optional] $private		Private object?
-	 * @param int[optional] $milestoneId	ID of the parent milestone.
-	 * @param int[optional] $parentId		ID of the parent object (category, ticket, ...)
+	 * @param $id string project ID.
+	 * @param $name string title.
+	 * @param $body string body.
+	 * @param $tags array[optional] of tags.
+	 * @param $private bool[optional] object?
+	 * @param $milestoneId int[optional] of the parent milestone.
+	 * @param $parentId int[optional] of the parent object (category, ticket,
+	 *        ...)
 	 * @return array
 	 */
 	public function projectsPagesAdd($id, $name, $body, array $tags = null, $private = false, $milestoneId = null, $parentId = null)
@@ -744,7 +921,7 @@ class ActiveCollab
 		$parameters['page']['body'] = (string) $body;
 
 		if($tags !== null) $parameters['page']['tags'] = implode(',', $tags);
-		$parameters['page']['private'] = ($private) ? 1 : 0;	// @todo	fix me
+		$parameters['page']['private'] = ($private) ? 1 : 0; // @todo fix me
 		if($milestoneId !== null) $parameters['page']['milestone_id'] = (int) $milestoneId;
 		if($parentId !== null) $parameters['page']['parent_id'] = (int) $parentId;
 
@@ -754,8 +931,8 @@ class ActiveCollab
 	/**
 	 * Displays page details with a list of all subpages and revisions.
 	 *
-	 * @param string $id		The ID of the project.
-	 * @param string $pageId	The ID of the page.
+	 * @param $id string ID of the project.
+	 * @param $pageId string ID of the page.
 	 * @return array
 	 */
 	public function projectsPagesGet($id, $pageId)
@@ -764,16 +941,17 @@ class ActiveCollab
 	}
 
 	/**
+	 * Edit a page
 	 *
-	 * Enter description here ...
-	 * @param string $id					The project ID.
-	 * @param string $pageId				Page ID.
-	 * @param string $name					Page title.
-	 * @param string $body					Page body.
-	 * @param array[optional] $tags			List of tags.
-	 * @param bool[optional] $private		Private object?
-	 * @param int[optional] $milestoneId	ID of the parent milestone.
-	 * @param int[optional] $parentId		ID of the parent object (category, ticket, ...)
+	 * @param unknown_type $id
+	 * @param unknown_type $pageId
+	 * @param unknown_type $isMinorRevision
+	 * @param unknown_type $name
+	 * @param unknown_type $body
+	 * @param array $tags
+	 * @param unknown_type $private
+	 * @param unknown_type $milestoneId
+	 * @param unknown_type $parentId
 	 * @return array
 	 */
 	public function projectsPagesEdit($id, $pageId, $isMinorRevision = false, $name = null, $body = null, array $tags = null, $private = false, $milestoneId = null, $parentId = null)
@@ -795,8 +973,8 @@ class ActiveCollab
 	/**
 	 * Mark the selected page as archived
 	 *
-	 * @param string $id		The ID of the project.
-	 * @param string $pageId	The ID of the page.
+	 * @param $id string ID of the project.
+	 * @param $pageId string ID of the page.
 	 * @return array
 	 */
 	public function projectsPagesArchive($id, $pageId)
@@ -807,8 +985,8 @@ class ActiveCollab
 	/**
 	 * Marks a selected page as unarchived
 	 *
-	 * @param string $id		The ID of the project.
-	 * @param string $pageId	The ID of the page.
+	 * @param $id string ID of the project.
+	 * @param $pageId string ID of the page.
 	 * @return array
 	 */
 	public function projectsPagesUnarchive($id, $pageId)
@@ -816,43 +994,72 @@ class ActiveCollab
 		return $this->doCall('/projects/' . (string) $id . '/pages/' . (string) $pageId . '/unarchive', null, 'POST');
 	}
 
-// Status Messages
+	// Status Messages
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function status()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function statusAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Comments
+	// Comments
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsCommentsAdd()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsCommentsGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsCommentsEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Subtasks
+	// Subtasks
 	/**
-	 * This command will create a new subtask and attach it to the parent object.
+	 * This command will create a new subtask and attach it to the parent
+	 * object.
 	 *
-	 * @param int $id						The ID of the project.
-	 * @param int $parentId					The ID of the parent (mostly ticket-id).
-	 * @param string $body					The task summary. A value for this field is required when a new task is added.
-	 * @param int[optional] $priority		Priority can have five integer values ranging from -2 (lowest) to 2 (highest). 0 is normal.
-	 * @param int[optional] $dueOn			When the task is due.
-	 * @param array[optional] $assignees	An array of people assigned to the object, first person will be responsible.
+	 * @param $id int ID of the project.
+	 * @param $parentId int ID of the parent (mostly ticket-id).
+	 * @param $body string task summary. A value for this field is required when
+	 *        a new task is added.
+	 * @param $priority int[optional] can have five integer values ranging from
+	 *        -2 (lowest) to 2 (highest). 0 is normal.
+	 * @param $dueOn int[optional] the task is due.
+	 * @param $assignees array[optional] array of people assigned to the object,
+	 *        first person will be responsible.
 	 * @return array
 	 */
 	public function projectsTasksAdd($id, $parentId, $body, $priority = null, $dueOn = null, array $assignees = null)
@@ -872,43 +1079,86 @@ class ActiveCollab
 		return $this->doCall('/projects/' . (string) $id . '/tasks/add&parent_id=' . (string) $parentId, $parameters, 'POST');
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTasksGet()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsTasksEdit()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Attachments
+	// Attachments
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsAttachments()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
-// Common Project Object Operations
+	// Common Project Object Operations
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsComplete()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsOpen()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsStar()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsUnstar()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Subscribes users to a specific object. If successful, the system will return the object's details.
+	 *
+	 * @param string $id		The project ID.
+	 * @param array $users		An array of the user IDs.
+	 * @param string $objectId	The object ID.
+	 * @return array			The object details.
+	 */
 	public function projectsObjectsSubscribe($id, array $users, $objectId)
 	{
 		$parameters['users'] = (array) $users;
@@ -916,16 +1166,31 @@ class ActiveCollab
 		return $this->doCall('/projects/' . (string) $id . '/objects/' . (string) $objectId . '/subscribe', $parameters, 'POST');
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsUnsubscribe()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsMoveToTrash()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
 	}
 
+	/**
+	 * Not implemented
+	 *
+	 * @throws ActiveCollabException
+	 */
 	public function projectsObjectsRestoreFromTrash()
 	{
 		throw new ActiveCollabException('Not implemented', 501);
@@ -935,8 +1200,7 @@ class ActiveCollab
 /**
  * ActiveCollab Exception class
  *
- * @author			Tijs Verkoyen <php-activecollab@verkoyen.eu>
+ * @author Tijs Verkoyen <php-activecollab@verkoyen.eu>
  */
 class ActiveCollabException extends Exception
-{
-}
+{}
