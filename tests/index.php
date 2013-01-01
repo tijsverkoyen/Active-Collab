@@ -1,41 +1,74 @@
 <?php
 
-// require
+//require
+require_once '../../../autoload.php';
 require_once 'config.php';
-require_once '../active_collab.php';
+
+use \TijsVerkoyen\ActiveCollab\ActiveCollab;
 
 // create instance
-$ac = new ActiveCollab(KEY, URL);
+$ac = new ActiveCollab(TOKEN, API_URL);
 
-// $response = $ac->info();
-// $response = $ac->rolesSystem();
-// $response = $ac->rolesProject();
-// $response = $ac->rolesGet(8);
-// $response = $ac->people();
-// $response = $ac->peopleAddCompany('name ' . time());
-// $response = $ac->peopleCompanyGet(5);
-// $response = $ac->projects();
-// $response = $ac->projectsAdd('name', 15);
-// $response = $ac->projectsGet(45);
-// $response = $ac->projectsPages(102);
-// $response = $ac->projectsPagesAdd(102, time(), 'page created on ' . date('Y-m-d H:i:s'));
-// $response = $ac->projectsPagesArchive(45, 5155);
-// $response = $ac->projectsPagesEdit(45, 5155, '[edited]');
-// $response = $ac->projectsPagesGet(102, 5553);
-// $response = $ac->projectsPagesUnarchive(45, 5155);
-// $response = $ac->projectsPeople(102);
-// $response = $ac->projectsPeopleAdd(102, array(26), 7);
-// $response = $ac->projectsPeopleUserChangePermissions(102, 26, 7);
-// $response = $ac->projectsPeopleUserRemoveFromProject(102, 26);
+try {
+// @todo  $response = $ac->projectsMilestones();
+// @todo  $response = $ac->projectsMilestonesAdd();
+// @todo  $response = $ac->projectsMilestonesGet();
+// @todo  $response = $ac->projectsMilestonesEdit();
+// @todo  $response = $ac->projectsMilestonesReschedule();
 
+// @todo  $response = $ac->apiIsAlive();
 
+//  $response = $ac->info();
+// @todo  $response = $ac->infoLabelsProject();
+// @todo  $response = $ac->infoLabelsAssignment();
+// @todo  $response = $ac->infoRoles();
+// @todo  $response = $ac->infoRolesProject();
 
-// $response = $ac->projectsUserTasksGet(45);
-// $response = $ac->projectsTickets(45);
-// $response = $ac->projectsTasksAdd(45, 4786, 'just a body ' . time());
-// $response = $ac->projectsTasksAdd(45, 4786, 'with priority' . time(), 1);
-// $response = $ac->projectsTasksAdd(45, 4786, 'with due date' . time(), null, mktime(00, 00, 00, 12, 20, 2011));
-// $response = $ac->projectsTasksAdd(45, 4786, 'with assignees' . time(), null, null, array(15), 15);
+// @todo  $response = $ac->people();
+// @todo  $response = $ac->peopleAddCompany();
+// @todo  $response = $ac->peopleCompanyGet();
+// @todo  $response = $ac->peopleCompanyEdit();
+// @todo  $response = $ac->peopleCompanyUserAdd();
+// @todo  $response = $ac->peopleCompanyUserGet();
+// @todo  $response = $ac->peopleCompanyUserEdit();
 
-// $response = $ac->projectsObjectsSubscribe(102, array(26), 5553);
-// Spoon::dump($response);
+// @todo  $response = $ac->projects();
+// @todo  $response = $ac->projectsArchive();
+// @todo  $response = $ac->projectsAdd();
+// @todo  $response = $ac->projectsGet();
+// @todo  $response = $ac->projectsEdit();
+
+// @todo  $response = $ac->projectsPeople();
+// @todo  $response = $ac->projectsPeopleAdd();
+// @todo  $response = $ac->projectsPeopleReplace();
+// @todo  $response = $ac->projectsPeopleChangePermissions();
+// @todo  $response = $ac->projectsPeopleRemove();
+
+// @todo  $response = $ac->projectsDiscussions();
+// @todo  $response = $ac->projectsDiscussionsAdd();
+// @todo  $response = $ac->projectsDiscussionsGet();
+// @todo  $response = $ac->projectsDiscussionsEdit();
+
+// @todo  $response = $ac->projectsTasks();
+// @todo  $response = $ac->projectsTasksArchive();
+// @todo  $response = $ac->projectsTasksAdd();
+// @todo  $response = $ac->projectsTasksGet();
+// @todo  $response = $ac->projectsTasksEdit();
+
+// @todo  $response = $ac->projectsTracking();
+// @todo  $response = $ac->projectsTrackingTimeAdd();
+// @todo  $response = $ac->projectsTrackingTimeGet();
+// @todo  $response = $ac->projectsTrackingTimeEdit();
+// @todo  $response = $ac->projectsTrackingExpensesAdd();
+// @todo  $response = $ac->projectsTrackingExpensesGet();
+// @todo  $response = $ac->projectsTrackingExpensesEdit();
+
+// @todo  $response = $ac->status();
+// @todo  $response = $ac->statusAdd();
+
+} catch (Exception $e) {
+  var_dump($e);
+}
+
+// output
+var_dump($response);
