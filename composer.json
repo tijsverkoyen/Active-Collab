@@ -1,0 +1,22 @@
+{
+	"name": "tijsverkoyen/activecollab",
+	"type": "library",
+	"description": "PHP ActiveCollab is a (wrapper)class to communicate with your Active Collab instance.",
+	"homepage": "https://github.com/tijsverkoyen/Active-Collab",
+	"license": "BSD",
+	"authors": [
+		{
+			"name": "Tijs Verkoyen",
+			"email": "php-activecollab@verkoyen.eu",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.2.0",
+		"ext-curl": "*"
+	},
+	"target-dir": "TijsVerkoyen/ActiveCollab",
+	"autoload": {
+		"psr-0": {"TijsVerkoyen\\ActiveCollab": ""}
+	}
+}
