@@ -1,5 +1,7 @@
 <?php
 
+namespace TijsVerkoyen\ActiveCollab;
+
 require_once '../../../autoload.php';
 require_once 'config.php';
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -51,20 +53,23 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     public function testGetUserAgent()
     {
         $this->activeCollab->setUserAgent('testing/1.0.0');
-        $this->assertEquals('PHP ActiveCollab/' . ActiveCollab::VERSION . ' testing/1.0.0', $this->activeCollab->getUserAgent());
+        $this->assertEquals(
+            'PHP ActiveCollab/' . ActiveCollab::VERSION . ' testing/1.0.0',
+            $this->activeCollab->getUserAgent()
+        );
     }
 
-	/**
-	 * Tests ActiveCollab->info()
-	 */
-	public function testInfo()
-	{
-		$response = $this->activeCollab->info();
-		$this->assertArrayHasKey('api_version', $response);
-		$this->assertArrayHasKey('system_version', $response);
-		$this->assertArrayHasKey('loaded_frameworks', $response);
-		$this->assertArrayHasKey('enabled_modules', $response);
-		$this->assertArrayHasKey('logged_user', $response);
-		$this->assertArrayHasKey('read_only', $response);
-	}
+    /**
+     * Tests ActiveCollab->info()
+     */
+    public function testInfo()
+    {
+        $response = $this->activeCollab->info();
+        $this->assertArrayHasKey('api_version', $response);
+        $this->assertArrayHasKey('system_version', $response);
+        $this->assertArrayHasKey('loaded_frameworks', $response);
+        $this->assertArrayHasKey('enabled_modules', $response);
+        $this->assertArrayHasKey('logged_user', $response);
+        $this->assertArrayHasKey('read_only', $response);
+    }
 }

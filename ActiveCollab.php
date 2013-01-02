@@ -47,13 +47,13 @@ class ActiveCollab
     private $userAgent;
 
     // class methods
-	/**
-	 * Create an instance
-	 *
-	 * @param string $token		The token to use.
-	 * @param string $apiUrl	The url of the API.
-	 */
-	public function __construct($token, $apiUrl)
+    /**
+     * Create an instance
+     *
+     * @param string $token  The token to use.
+     * @param string $apiUrl The url of the API.
+     */
+    public function __construct($token, $apiUrl)
     {
         $this->setToken($token);
         $this->setApiUrl($apiUrl);
@@ -83,20 +83,20 @@ class ActiveCollab
             $options[CURLOPT_POST] = true;
             $options[CURLOPT_POSTFIELDS] = http_build_query($parameters);
         } else {
-			$options[CURLOPT_POST] = false;
+            $options[CURLOPT_POST] = false;
             $url .= '&' . http_build_query($parameters);
         }
 
         // set options
         $options[CURLOPT_URL] = $url;
-		$options[CURLOPT_USERAGENT] = $this->getUserAgent();
-		if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
-			$options[CURLOPT_FOLLOWLOCATION] = true;
-		}
-		$options[CURLOPT_RETURNTRANSFER] = true;
-		$options[CURLOPT_TIMEOUT] = (int) $this->getTimeOut();
-		$options[CURLOPT_SSL_VERIFYPEER] = false;
-		$options[CURLOPT_SSL_VERIFYHOST] = false;
+        $options[CURLOPT_USERAGENT] = $this->getUserAgent();
+        if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
+            $options[CURLOPT_FOLLOWLOCATION] = true;
+        }
+        $options[CURLOPT_RETURNTRANSFER] = true;
+        $options[CURLOPT_TIMEOUT] = (int) $this->getTimeOut();
+        $options[CURLOPT_SSL_VERIFYPEER] = false;
+        $options[CURLOPT_SSL_VERIFYHOST] = false;
 
         // init
         $curl = curl_init();
@@ -115,46 +115,46 @@ class ActiveCollab
         // close
         curl_close($curl);
 
-		// we expect JSON, so decode it
-		$json = @json_decode($response, true);
+        // we expect JSON, so decode it
+        $json = @json_decode($response, true);
 
-		// validate JSON
-		if ($json === null) {
-			// should we provide debug information
-			if (self::DEBUG) {
-				// make it output proper
-				echo '<pre>';
+        // validate JSON
+        if ($json === null) {
+            // should we provide debug information
+            if (self::DEBUG) {
+                // make it output proper
+                echo '<pre>';
 
-				// dump the header-information
-				var_dump($headers);
+                // dump the header-information
+                var_dump($headers);
 
-				// dump the error
-				var_dump($errorMessage);
+                // dump the error
+                var_dump($errorMessage);
 
-				// dump the raw response
-				var_dump($response);
+                // dump the raw response
+                var_dump($response);
 
-				// end proper format
-				echo '</pre>';
-			}
+                // end proper format
+                echo '</pre>';
+            }
 
-			// throw exception
-			throw new Exception('Invalid response.');
-		}
+            // throw exception
+            throw new Exception('Invalid response.');
+        }
 
-		// return
-		return $json;
+        // return
+        return $json;
     }
 
-	/**
-	 * Get the url of the instance making the request
-	 *
-	 * @return string
-	 */
-	public function getApiUrl()
-	{
-		return (string) $this->apiUrl;
-	}
+    /**
+     * Get the url of the instance making the request
+     *
+     * @return string
+     */
+    public function getApiUrl()
+    {
+        return (string) $this->apiUrl;
+    }
 
     /**
      * Get the timeout that will be used
@@ -233,16 +233,15 @@ class ActiveCollab
         $this->userAgent = (string) $userAgent;
     }
 
-	/**
-	 * Returns system information about the installation you are working with.
-	 * This information includes system versions; info about logged in users;
-	 * the mode the API is in etc.
-	 *
-	 * @return array
-	 */
-	public function info()
-	{
-		return $this->doCall('info');
-	}
-
+    /**
+     * Returns system information about the installation you are working with.
+     * This information includes system versions; info about logged in users;
+     * the mode the API is in etc.
+     *
+     * @return array
+     */
+    public function info()
+    {
+        return $this->doCall('info');
+    }
 }
