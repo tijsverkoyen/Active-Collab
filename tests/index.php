@@ -24,7 +24,7 @@ try {
 //    $response = $ac->infoRoles();
 //    $response = $ac->infoRolesProject();
 
-    // @todo  $response = $ac->people();
+//    $response = $ac->people();
     // @todo  $response = $ac->peopleAddCompany();
     // @todo  $response = $ac->peopleCompanyGet();
     // @todo  $response = $ac->peopleCompanyEdit();

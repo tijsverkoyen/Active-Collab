@@ -309,6 +309,16 @@ class ActiveCollab
     }
 
     /**
+     * Lists all active companies that are defined in People section.
+     *
+     * @return array
+     */
+    public function people()
+    {
+        return $this->doCall('people');
+    }
+
+    /**
      * Display all, non-archived projects that this user has access to.
      * In case of administrators and project managers, system will return all
      * non-archived projects and properly populate is_member flag value (when 0,

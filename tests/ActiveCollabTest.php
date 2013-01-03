@@ -142,6 +142,21 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a company
+     *
+     * @param array $item
+     */
+    private function isCompany($item)
+    {
+        $this->assertArrayHasKey('name', $item);
+        $this->assertArrayHasKey('office_address', $item);
+        $this->assertArrayHasKey('office_phone', $item);
+        $this->assertArrayHasKey('office_fax', $item);
+        $this->assertArrayHasKey('office_homepage', $item);
+        $this->assertArrayHasKey('note', $item);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -223,11 +238,22 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     /**
      * Tests ActiveCollab->infoRolesProject()
      */
-    public function testinfoRolesProject()
+    public function testInfoRolesProject()
     {
-        $response = $this->activeCollab->infoRolesProject()
+        $response = $this->activeCollab->infoRolesProject();
         foreach ($response as $row) {
             $this->isRole($row);
+        }
+    }
+
+    /**
+     * Tests ActiveCollab->people()
+     */
+    public function testPeople()
+    {
+        $response = $this->activeCollab->people();
+        foreach ($response as $row) {
+            $this->isCompany($row);
         }
     }
 
