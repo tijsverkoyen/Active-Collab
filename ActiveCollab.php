@@ -246,7 +246,7 @@ class ActiveCollab
     /**
      * Lists all active milestones for a specific project.
      *
-     * @param string $slug  The slug of the project.
+     * @param  string $slug The slug of the project.
      * @return array
      */
     public function projectsMilestones($slug)

@@ -215,8 +215,7 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     public function testInfoRoles()
     {
         $response = $this->activeCollab->infoRoles();
-        foreach($response as $row)
-        {
+        foreach ($response as $row) {
             $this->isRole($row);
         }
     }
