@@ -388,4 +388,17 @@ class ActiveCollab
 
         return $this->doCall($path);
     }
+
+    /**
+     * Lists all open and completed, non-archived tasks from a project.
+     *
+     * @param  string $slug The slug of the project.
+     * @return array
+     */
+    public function projectsTasks($slug)
+    {
+        $path = 'projects/' . (string) $slug . '/tasks';
+
+        return $this->doCall($path);
+    }
 }

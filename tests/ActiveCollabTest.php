@@ -174,6 +174,30 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a task
+     *
+     * @param array $item
+     */
+    private function isTask($item)
+    {
+        $this->assertArrayHasKey('name', $item);
+        $this->assertArrayHasKey('body', $item);
+        $this->assertArrayHasKey('visibility', $item);
+        $this->assertInternalType('int', $item['visibility']);
+        $this->assertArrayHasKey('category_id', $item);
+        $this->assertInternalType('int', $item['category_id']);
+        $this->assertArrayHasKey('label_id', $item);
+        $this->assertInternalType('int', $item['label_id']);
+        $this->assertArrayHasKey('milestone_id', $item);
+        $this->assertInternalType('int', $item['milestone_id']);
+        $this->assertArrayHasKey('priority', $item);
+        $this->assertInternalType('int', $item['priority']);
+        $this->assertArrayHasKey('assignee_id', $item);
+        $this->assertInternalType('int', $item['assignee_id']);
+        $this->assertArrayHasKey('due_on', $item);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -307,10 +331,20 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     public function testProjectsDiscussions()
     {
         $response = $this->activeCollab->projectsDiscussions('api-example');
-        foreach($response as $row)
-        {
+        foreach ($response as $row) {
             $this->assertArrayHasKey('id', $row);
             $this->assertArrayHasKey('name', $row);
+        }
+    }
+
+    /**
+     * Tests ActiveCollab->projectsTasks()
+     */
+    public function testProjectsTasks()
+    {
+        $response = $this->activeCollab->projectsTasks('api-example');
+        foreach ($response as $row) {
+            $this->isTask($row);
         }
     }
 }
