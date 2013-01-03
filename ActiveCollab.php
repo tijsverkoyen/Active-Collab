@@ -244,4 +244,43 @@ class ActiveCollab
     {
         return $this->doCall('info');
     }
+
+    /**
+     * Display all, non-archived projects that this user has access to.
+     * In case of administrators and project managers, system will return all
+     * non-archived projects and properly populate is_member flag value (when 0,
+     * administrator and project manager can see and manage the project, but
+     * they are not directly involved with it).
+     *
+     * @return mixed
+     */
+    public function projects()
+    {
+        $return = $this->doCall('projects');
+
+        // because in some methods we need a slug and it isn't returned we calculate the slug in this method
+        if (!empty($return)) {
+            foreach ($return as &$row) {
+                $parts = parse_url($row['permalink']);
+                if (isset($parts['query'])) {
+                    $chunks = explode('&', $parts['query']);
+
+                    foreach ($chunks as $parameter) {
+                        $parameterChunks = explode('=', $parameter);
+
+                        if (count($parameterChunks) == 2 && $parameterChunks[0] == 'path_info') {
+                            $data = explode('/', urldecode($parameterChunks[1]));
+
+                            if (isset($data[1])) {
+                                $row['slug'] = $data[1];
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $return;
+    }
 }

@@ -39,6 +39,70 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a DateTimeValue
+     *
+     * @param $item
+     */
+    private function isDateTimeValue($item)
+    {
+        $this->assertArrayHasKey('class', $item);
+        $this->assertEquals($item['class'], 'DateTimeValue');
+        $this->assertArrayHasKey('timestamp', $item);
+        $this->assertInternalType('int', $item['timestamp']);
+        $this->assertArrayHasKey('mysql', $item);
+        $this->assertArrayHasKey('formatted', $item);
+        $this->assertArrayHasKey('formatted_gmt', $item);
+        $this->assertArrayHasKey('formatted_time', $item);
+        $this->assertArrayHasKey('formatted_time_gmt', $item);
+        $this->assertArrayHasKey('formatted_date', $item);
+        $this->assertArrayHasKey('formatted_date_gmt', $item);
+    }
+
+    /**
+     * Check if an item is a project
+     *
+     * @param array $item
+     */
+    private function isProject($item)
+    {
+        $this->assertArrayHasKey('name', $item);
+        $this->assertArrayHasKey('overview', $item);
+        $this->assertArrayHasKey('category_id', $item);
+        $this->assertInternalType('int', $item['category_id']);
+        $this->assertArrayHasKey('company_id', $item);
+        $this->assertInternalType('int', $item['company_id']);
+        $this->assertArrayHasKey('leader_id', $item);
+        $this->assertInternalType('int', $item['leader_id']);
+        $this->assertArrayHasKey('budget', $item);
+        $this->assertArrayHasKey('label_id', $item);
+        $this->assertInternalType('int', $item['label_id']);
+
+        // extra non documented fields
+        $this->assertArrayHasKey('permalink', $item);
+        $this->assertArrayHasKey('verbose_type', $item);
+        $this->assertArrayHasKey('verbose_type_lowercase', $item);
+        $this->assertArrayHasKey('urls', $item);
+        $this->assertArrayHasKey('permissions', $item);
+        $this->assertArrayHasKey('created_on', $item);
+        $this->isDateTimeValue($item['created_on']);
+        $this->assertArrayHasKey('created_by_id', $item);
+        $this->assertArrayHasKey('updated_on', $item);
+        $this->assertArrayHasKey('updated_by_id', $item);
+        $this->assertArrayHasKey('state', $item);
+        $this->assertArrayHasKey('is_archived', $item);
+        $this->assertArrayHasKey('is_trashed', $item);
+        $this->assertArrayHasKey('completed_on', $item);
+        $this->assertArrayHasKey('completed_by_id', $item);
+        $this->assertArrayHasKey('is_completed', $item);
+        $this->assertArrayHasKey('avatar', $item);
+        $this->assertArrayHasKey('overview_formatted', $item);
+        $this->assertArrayHasKey('currency_code', $item);
+        $this->assertArrayHasKey('based_on', $item);
+        $this->assertArrayHasKey('status_verbose', $item);
+        $this->assertArrayHasKey('progress', $item);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -71,5 +135,16 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('enabled_modules', $response);
         $this->assertArrayHasKey('logged_user', $response);
         $this->assertArrayHasKey('read_only', $response);
+    }
+
+    /**
+     * Tests ActiveCollab->projects
+     */
+    public function testProjects()
+    {
+        $response = $this->activeCollab->projects();
+        foreach ($response as $row) {
+            $this->isProject($row);
+        }
     }
 }

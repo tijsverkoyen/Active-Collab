@@ -32,7 +32,7 @@ try {
     // @todo  $response = $ac->peopleCompanyUserGet();
     // @todo  $response = $ac->peopleCompanyUserEdit();
 
-    // @todo  $response = $ac->projects();
+//    $response = $ac->projects();
     // @todo  $response = $ac->projectsArchive();
     // @todo  $response = $ac->projectsAdd();
     // @todo  $response = $ac->projectsGet();
