@@ -59,7 +59,15 @@ class ActiveCollab
         $this->setApiUrl($apiUrl);
     }
 
-    private function doCall($path, array $parameters = array(), $method = 'GET')
+    /**
+     * Make a call
+     *
+     * @param  string           $path       The method to be called.
+     * @param  array[optional]  $parameters The parameters to pass.
+     * @param  string[optional] $method     The method to use. Possible values are GET or POST.
+     * @return mixed
+     */
+    private function doCall($path, array $parameters = null, $method = 'GET')
     {
         // redefine
         $path = (string) $path;
@@ -84,7 +92,9 @@ class ActiveCollab
             $options[CURLOPT_POSTFIELDS] = http_build_query($parameters);
         } else {
             $options[CURLOPT_POST] = false;
-            $url .= '&' . http_build_query($parameters);
+            if (!empty($parameters)) {
+                $url .= '&' . http_build_query($parameters);
+            }
         }
 
         // set options

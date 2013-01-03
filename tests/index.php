@@ -18,7 +18,7 @@ try {
 
     // @todo  $response = $ac->apiIsAlive();
 
-    // $response = $ac->info();
+//    $response = $ac->info();
     // @todo  $response = $ac->infoLabelsProject();
     // @todo  $response = $ac->infoLabelsAssignment();
     // @todo  $response = $ac->infoRoles();
