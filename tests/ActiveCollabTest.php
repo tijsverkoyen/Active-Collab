@@ -1,7 +1,5 @@
 <?php
 
-namespace TijsVerkoyen\ActiveCollab;
-
 require_once '../../../autoload.php';
 require_once 'config.php';
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -162,6 +160,20 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('enabled_modules', $response);
         $this->assertArrayHasKey('logged_user', $response);
         $this->assertArrayHasKey('read_only', $response);
+    }
+
+    /**
+     * Tests ActiveCollab->infoLabelsProject()
+     */
+    public function testInfoLabelsProject()
+    {
+        $response = $this->activeCollab->infoLabelsProject();
+        foreach ($response as $row) {
+            $this->assertArrayHasKey('id', $row);
+            $this->assertArrayHasKey('name', $row);
+            $this->assertArrayHasKey('fg_color', $row);
+            $this->assertArrayHasKey('bg_color', $row);
+        }
     }
 
     /**

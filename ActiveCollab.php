@@ -269,6 +269,17 @@ class ActiveCollab
     }
 
     /**
+     * Lists all available project labels.
+     *
+     * @return array
+     */
+    public function infoLabelsProject()
+    {
+        return $this->doCall('info/labels/project');
+    }
+
+
+    /**
      * Display all, non-archived projects that this user has access to.
      * In case of administrators and project managers, system will return all
      * non-archived projects and properly populate is_member flag value (when 0,
