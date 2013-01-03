@@ -356,4 +356,23 @@ class ActiveCollab
 
         return $return;
     }
+
+    /**
+     * Displays the list of people involved with the project and the permissions
+     * included in their Project Role. Project Permissions are organized per
+     * module and have four possible values:
+     *  - 0: no access
+     *  - 1: has access, but can't create or manage objects
+     *  - 2: has access and permission to create objects in a given module
+     *  - 3: has access, creation and management permissions in a given module
+     *
+     * @param  string $slug The slug of the project.
+     * @return array
+     */
+    public function projectsPeople($slug)
+    {
+        $path = 'projects/' . (string) $slug . '/people';
+
+        return $this->doCall($path);
+    }
 }

@@ -157,6 +157,23 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a user
+     *
+     * @param array $item
+     */
+    private function isUser($item)
+    {
+        $this->assertArrayHasKey('id', $item);
+        $this->assertInternalType('int', $item['id']);
+        $this->assertArrayHasKey('role_id', $item);
+        $this->assertInternalType('int', $item['role_id']);
+        $this->assertArrayHasKey('email', $item);
+        $this->assertArrayHasKey('name', $item);
+        $this->assertArrayHasKey('first_name', $item);
+        $this->assertArrayHasKey('last_name', $item);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -265,6 +282,22 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
         $response = $this->activeCollab->projects();
         foreach ($response as $row) {
             $this->isProject($row);
+        }
+    }
+
+    /**
+     * Tests ActiveCollab->projectsPeople()
+     */
+    public function testProjectsPeople()
+    {
+        $response = $this->activeCollab->projectsPeople('api-example');
+        foreach ($response as $row) {
+            $this->assertArrayHasKey('user_id', $row);
+            $this->assertArrayHasKey('role_id', $row);
+            $this->assertArrayHasKey('role', $row);
+            $this->assertArrayHasKey('permissions', $row);
+            $this->assertArrayHasKey('user', $row);
+            $this->isUser($row['user']);
         }
     }
 }

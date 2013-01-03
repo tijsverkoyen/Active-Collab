@@ -38,7 +38,7 @@ try {
     // @todo  $response = $ac->projectsGet();
     // @todo  $response = $ac->projectsEdit();
 
-    // @todo  $response = $ac->projectsPeople();
+//    $response = $ac->projectsPeople('api-example');
     // @todo  $response = $ac->projectsPeopleAdd();
     // @todo  $response = $ac->projectsPeopleReplace();
     // @todo  $response = $ac->projectsPeopleChangePermissions();
