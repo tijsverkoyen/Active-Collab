@@ -44,7 +44,7 @@ try {
     // @todo  $response = $ac->projectsPeopleChangePermissions();
     // @todo  $response = $ac->projectsPeopleRemove();
 
-    // @todo  $response = $ac->projectsDiscussions();
+//    $response = $ac->projectsDiscussions('api-example');
     // @todo  $response = $ac->projectsDiscussionsAdd();
     // @todo  $response = $ac->projectsDiscussionsGet();
     // @todo  $response = $ac->projectsDiscussionsEdit();

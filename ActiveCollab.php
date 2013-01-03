@@ -375,4 +375,17 @@ class ActiveCollab
 
         return $this->doCall($path);
     }
+
+    /**
+     * Displays all non-archived discussions in a project.
+     *
+     * @param  string $slug The slug of the project.
+     * @return array
+     */
+    public function projectsDiscussions($slug)
+    {
+        $path = 'projects/' . (string) $slug . '/discussions';
+
+        return $this->doCall($path);
+    }
 }

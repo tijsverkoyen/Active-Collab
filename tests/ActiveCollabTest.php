@@ -300,4 +300,17 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
             $this->isUser($row['user']);
         }
     }
+
+    /**
+     * Tests ActiveCollab->projectsDiscussions()
+     */
+    public function testProjectsDiscussions()
+    {
+        $response = $this->activeCollab->projectsDiscussions('api-example');
+        foreach($response as $row)
+        {
+            $this->assertArrayHasKey('id', $row);
+            $this->assertArrayHasKey('name', $row);
+        }
+    }
 }
