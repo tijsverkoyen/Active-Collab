@@ -291,11 +291,21 @@ class ActiveCollab
     /**
      * Lists all system roles and role details (permissions included).
      *
-     * @return mixed
+     * @return array
      */
     public function infoRoles()
     {
         return $this->doCall('info/roles');
+    }
+
+    /**
+     * Lists all project roles and displays their permissions.
+     *
+     * @return array
+     */
+    public function infoRolesProject()
+    {
+       return $this->doCall('info/roles/project');
     }
 
     /**
