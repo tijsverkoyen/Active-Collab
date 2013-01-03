@@ -20,7 +20,7 @@ try {
 
 //    $response = $ac->info();
 //    $response = $ac->infoLabelsProject();
-    // @todo  $response = $ac->infoLabelsAssignment();
+//    $response = $ac->infoLabelsAssignment();
     // @todo  $response = $ac->infoRoles();
     // @todo  $response = $ac->infoRolesProject();
 

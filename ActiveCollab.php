@@ -278,6 +278,15 @@ class ActiveCollab
         return $this->doCall('info/labels/project');
     }
 
+    /**
+     * Lists all available assignment labels. These labels are used by tasks and subtasks.
+     *
+     * @return array
+     */
+    public function infoLabelsAssignment()
+    {
+        return $this->doCall('info/labels/assignment');
+    }
 
     /**
      * Display all, non-archived projects that this user has access to.

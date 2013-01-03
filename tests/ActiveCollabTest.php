@@ -102,6 +102,7 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
 
     /**
      * Check if an item is a milestone
+     *
      * @param array $item
      */
     private function isMilestone($item)
@@ -114,6 +115,19 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $item['priority']);
         $this->assertArrayHasKey('assignee_id', $item);
         $this->assertInternalType('int', $item['assignee_id']);
+    }
+
+    /**
+     * Check if an item is a label
+     *
+     * @param array $item
+     */
+    private function isLabel($item)
+    {
+        $this->assertArrayHasKey('id', $item);
+        $this->assertArrayHasKey('name', $item);
+        $this->assertArrayHasKey('fg_color', $item);
+        $this->assertArrayHasKey('bg_color', $item);
     }
 
     /**
@@ -169,12 +183,21 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     {
         $response = $this->activeCollab->infoLabelsProject();
         foreach ($response as $row) {
-            $this->assertArrayHasKey('id', $row);
-            $this->assertArrayHasKey('name', $row);
-            $this->assertArrayHasKey('fg_color', $row);
-            $this->assertArrayHasKey('bg_color', $row);
+            $this->isLabel($row);
         }
     }
+
+    /**
+     * Tests ActiveCollab->infoLabelsAssignment()
+     */
+    public function testInfoLabelsAssignment()
+    {
+        $response = $this->activeCollab->infoLabelsAssignment();
+        foreach ($response as $row) {
+            $this->isLabel($row);
+        }
+    }
+
 
     /**
      * Tests ActiveCollab->projects
