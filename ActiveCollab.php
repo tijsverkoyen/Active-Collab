@@ -289,6 +289,16 @@ class ActiveCollab
     }
 
     /**
+     * Lists all system roles and role details (permissions included).
+     *
+     * @return mixed
+     */
+    public function infoRoles()
+    {
+        return $this->doCall('info/roles');
+    }
+
+    /**
      * Display all, non-archived projects that this user has access to.
      * In case of administrators and project managers, system will return all
      * non-archived projects and properly populate is_member flag value (when 0,

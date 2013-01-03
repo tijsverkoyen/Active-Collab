@@ -131,6 +131,17 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a role
+     *
+     * @param array $item
+     */
+    private function isRole($item)
+    {
+        $this->assertArrayHasKey('id', $item);
+        $this->assertArrayHasKey('name', $item);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -198,6 +209,17 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Tests ActiveCollab->infoRoles()
+     */
+    public function testInfoRoles()
+    {
+        $response = $this->activeCollab->infoRoles();
+        foreach($response as $row)
+        {
+            $this->isRole($row);
+        }
+    }
 
     /**
      * Tests ActiveCollab->projects
