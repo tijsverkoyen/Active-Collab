@@ -198,6 +198,37 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a time record
+     *
+     * @param array $item
+     */
+    private function isTimeRecord($item)
+    {
+        $this->assertArrayHasKey('value', $item);
+        $this->assertArrayHasKey('job_type_id', $item);
+        $this->assertInternalType('int', $item['job_type_id']);
+        $this->assertArrayHasKey('summary', $item);
+        $this->assertArrayHasKey('record_date', $item);
+        $this->assertArrayHasKey('billable_status', $item);
+        $this->assertInternalType('int', $item['billable_status']);
+    }
+
+    /**
+     * Check if an item is an expense
+     *
+     * @param array $item
+     */
+    private function isExpense($item)
+    {
+        $this->assertArrayHasKey('category_id', $item);
+        $this->assertInternalType('int', $item['category_id']);
+        $this->assertArrayHasKey('value', $item);
+        $this->assertArrayHasKey('summary', $item);
+        $this->assertArrayHasKey('record_date', $item);
+        $this->assertInternalType('int', $item['billable_status']);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -345,6 +376,22 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
         $response = $this->activeCollab->projectsTasks('api-example');
         foreach ($response as $row) {
             $this->isTask($row);
+        }
+    }
+
+    /**
+     * Tests ActiveCollab->projectsTracking()
+     */
+    public function testProjectsTracking()
+    {
+        $response = $this->activeCollab->projectsTracking('api-example');
+        foreach ($response as $row) {
+            $this->assertArrayHasKey('verbose_type_lowercase', $row);
+            if ($row['verbose_type_lowercase'] == 'time record') {
+                $this->isTimeRecord($row);
+            } elseif ($row['verbose_type_lowercase'] == 'expense') {
+                $this->isExpense($row);
+            }
         }
     }
 }

@@ -401,4 +401,24 @@ class ActiveCollab
 
         return $this->doCall($path);
     }
+
+    /**
+     * This command will display last 300 time records and expenses in a given
+     * project.
+     * If you wish to return all time records and expenses from a project, set
+     * $dontLimit to true.
+     *
+     * @param  string         $slug      The slug of the project.
+     * @param  bool[optional] $dontLimit Don't limit the results.
+     * @return mixed
+     */
+    public function projectsTracking($slug, $dontLimit = false)
+    {
+        $parameters = null;
+        if($dontLimit) $parameters['dont_limit_results'] = '1';
+
+        $path = 'projects/' . (string) $slug . '/tracking';
+
+        return $this->doCall($path, $parameters);
+    }
 }
