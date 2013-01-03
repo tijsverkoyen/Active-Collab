@@ -103,6 +103,22 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if an item is a milestone
+     * @param array $item
+     */
+    private function isMilestone($item)
+    {
+        $this->assertArrayHasKey('name', $item);
+        $this->assertArrayHasKey('body', $item);
+        $this->assertArrayHasKey('start_on', $item);
+        $this->assertArrayHasKey('due_on', $item);
+        $this->assertArrayHasKey('priority', $item);
+        $this->assertInternalType('int', $item['priority']);
+        $this->assertArrayHasKey('assignee_id', $item);
+        $this->assertInternalType('int', $item['assignee_id']);
+    }
+
+    /**
      * Tests ActiveCollab->getTimeOut()
      */
     public function testGetTimeOut()
@@ -121,6 +137,17 @@ class ActiveCollabTest extends PHPUnit_Framework_TestCase
             'PHP ActiveCollab/' . ActiveCollab::VERSION . ' testing/1.0.0',
             $this->activeCollab->getUserAgent()
         );
+    }
+
+    /**
+     * Tests ActiveCollab->projectsMilestones()
+     */
+    public function testProjectsMilestones()
+    {
+        $response = $this->activeCollab->projectsMilestones('api-example');
+        foreach ($response as $row) {
+            $this->isMilestone($row);
+        }
     }
 
     /**

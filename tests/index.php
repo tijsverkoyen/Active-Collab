@@ -10,7 +10,7 @@ use \TijsVerkoyen\ActiveCollab\ActiveCollab;
 $ac = new ActiveCollab(TOKEN, API_URL);
 
 try {
-    // @todo  $response = $ac->projectsMilestones();
+//    $response = $ac->projectsMilestones('api-example');
     // @todo  $response = $ac->projectsMilestonesAdd();
     // @todo  $response = $ac->projectsMilestonesGet();
     // @todo  $response = $ac->projectsMilestonesEdit();

@@ -244,6 +244,19 @@ class ActiveCollab
     }
 
     /**
+     * Lists all active milestones for a specific project.
+     *
+     * @param string $slug  The slug of the project.
+     * @return array
+     */
+    public function projectsMilestones($slug)
+    {
+        $path = 'projects/' . (string) $slug . '/milestones';
+
+        return $this->doCall($path);
+    }
+
+    /**
      * Returns system information about the installation you are working with.
      * This information includes system versions; info about logged in users;
      * the mode the API is in etc.
