@@ -125,35 +125,10 @@ class ActiveCollab
         // close
         curl_close($curl);
 
+        $response = 'null';
+
         // we expect JSON, so decode it
-        $json = @json_decode($response, true);
-
-        // validate JSON
-        if ($json === null) {
-            // should we provide debug information
-            if (self::DEBUG) {
-                // make it output proper
-                echo '<pre>';
-
-                // dump the header-information
-                var_dump($headers);
-
-                // dump the error
-                var_dump($errorMessage);
-
-                // dump the raw response
-                var_dump($response);
-
-                // end proper format
-                echo '</pre>';
-            }
-
-            // throw exception
-            throw new Exception('Invalid response.');
-        }
-
-        // return
-        return $json;
+        return @json_decode($response, true);
     }
 
     /**
