@@ -125,8 +125,6 @@ class ActiveCollab
         // close
         curl_close($curl);
 
-        $response = 'null';
-
         // we expect JSON, so decode it
         return @json_decode($response, true);
     }
